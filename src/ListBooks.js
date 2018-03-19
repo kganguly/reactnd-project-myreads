@@ -12,9 +12,9 @@ const ListBooks = props => {
       </div>
       <div className="list-books-content">
         <div>
-          <BookShelf books={props.books} name="currentlyReading" displayName="Currently Reading" />
-          <BookShelf books={props.books} name="wantToRead" displayName="Want To Read" />
-          <BookShelf books={props.books} name="read" displayName="Read" />
+          <BookShelf books={props.books} name="currentlyReading" displayName="Currently Reading" onChangeShelf={props.onChangeShelf} />
+          <BookShelf books={props.books} name="wantToRead" displayName="Want To Read" onChangeShelf={props.onChangeShelf} />
+          <BookShelf books={props.books} name="read" displayName="Read" onChangeShelf={props.onChangeShelf} />
         </div>
       </div>
       <div className="open-search">

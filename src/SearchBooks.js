@@ -22,7 +22,7 @@ const SearchBooks = props => (
       </div>
     </div>
     <div className="search-books-results">
-      <BooksGrid books={[]} />
+      <BooksGrid books={[]} onChangeShelf={props.onChangeShelf} />
     </div>
   </div>
 );

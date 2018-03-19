@@ -11,7 +11,7 @@ const Bookshelf = props => {
       <h2 className="bookshelf-title">{displayName}</h2>
       <div className="bookshelf-books">
         <ol className="books-grid">
-          <BooksGrid books={booksOnShelf} />
+          <BooksGrid books={booksOnShelf} onChangeShelf={props.onChangeShelf} />
         </ol>
       </div>
     </div>
