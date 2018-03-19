@@ -13,9 +13,9 @@ const Book = props => {
       </div>
       <div className="book-title">{book.title}</div>
       <div className="book-authors">
-        {book.authors.map(author => (
+        {book.authors ? book.authors.map(author => (
           <div key={author}>{author}</div>
-        ))}
+        )) : <div key='unkown'>unknown</div>}
       </div>
     </div>
   );

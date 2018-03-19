@@ -2,14 +2,50 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import BooksGrid from './BooksGrid';
+import * as BooksAPI from './BooksAPI';
 // import sortBy from 'sort-by';
 
-const SearchBooks = props => (
-  <div className="search-books">
-    <div className="search-books-bar">
-      <Link className="close-search" to="/">Close</Link>
-      <div className="search-books-input-wrapper">
-        {/*
+class SearchBooks extends React.Component {
+  state = {
+    query: '',
+    searchResults: []
+  }
+
+  updateQuery = (query) => {
+    query = query.trim();
+    if (query === '') {
+      this.clearQuery();
+    } else {
+      this.setState({ query, searchResults: [] });
+      BooksAPI.search(query).then(
+        results => {
+          this.setState({ searchResults: results });
+          console.log("RESULTS:", results);
+        }
+      );
+    }
+  }
+
+  clearQuery = () => {
+    this.setState({ query: '', searchResults: [] });
+  }
+
+  render() {
+    const { books, onChangeShelf } = this.props;
+    const { searchResults } = this.state;
+    const mergedResults = !searchResults.error ? searchResults.map(
+      book => {
+        const found = books.find(shelvedBook => shelvedBook.id === book.id);
+        return found || book;
+      }
+    ) : [];
+
+    return (
+      <div className="search-books" >
+        <div className="search-books-bar">
+          <Link className="close-search" to="/">Close</Link>
+          <div className="search-books-input-wrapper">
+            {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
                   You can find these search terms here:
                   https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
@@ -17,14 +53,16 @@ const SearchBooks = props => (
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-        <input type="text" placeholder="Search by title or author" />
+            <input type="text" onChange={(e) => this.updateQuery(e.target.value)} placeholder="Search by title or author" />
 
+          </div>
+        </div>
+        <div className="search-books-results">
+          <BooksGrid books={mergedResults} onChangeShelf={this.props.onChangeShelf} />
+        </div>
       </div>
-    </div>
-    <div className="search-books-results">
-      <BooksGrid books={[]} onChangeShelf={props.onChangeShelf} />
-    </div>
-  </div>
-);
+    );
+  }
+}
 
 export default SearchBooks;
