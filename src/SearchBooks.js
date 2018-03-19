@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import BooksGrid from './BooksGrid';
 // import sortBy from 'sort-by';
 
 const SearchBooks = props => (
@@ -21,7 +22,7 @@ const SearchBooks = props => (
       </div>
     </div>
     <div className="search-books-results">
-      <ol className="books-grid"></ol>
+      <BooksGrid books={[]} />
     </div>
   </div>
 );
