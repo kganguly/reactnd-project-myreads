@@ -18,7 +18,7 @@ class BooksApp extends React.Component {
     BooksAPI.getAll().then(
       books => {
         this.setState({ books });
-        console.log(books);
+        // console.log(books);
       }
     );
   }
@@ -26,9 +26,14 @@ class BooksApp extends React.Component {
   changeShelf = (changedBook, newShelf) => {
     this.setState(previousState => {
       const newBooks = [...previousState.books];
-      const found = newBooks.find(book => book.id === changedBook.id);
-      if (found) {
-        found.shelf = newShelf;
+      const foundIndex = newBooks.findIndex(book => book.id === changedBook.id);
+
+      if (foundIndex >= 0) {
+        if (newShelf === 'none') {
+          newBooks.splice(foundIndex, 1);
+        } else {
+          newBooks[foundIndex].shelf = newShelf;
+        }
       } else {
         changedBook.shelf = newShelf;
         newBooks.push(changedBook);
